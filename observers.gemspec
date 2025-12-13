@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ['maediprichard@gmail.com']
 
   spec.summary = 'Observe objects of any kind'
-  spec.description = 'Observers for event-driven applications'
+  spec.description = 'Observe events for objects of any kind'
   spec.homepage = 'https://github.com/maedi/observers'
   spec.required_ruby_version = '>= 3.3.0'
 
