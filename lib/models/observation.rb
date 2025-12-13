@@ -2,6 +2,8 @@
 
 module Observers
   class Observation
+    attr_reader :observers
+
     def initialize(observable:)
       @observable = observable
       @observers = []
@@ -9,7 +11,7 @@ module Observers
 
     def add_observer(observer:)
       @observers << observer
-      @observers.sort_by(&:priority)
+      @observers.sort_by(&:order)
     end
   end
 end

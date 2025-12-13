@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'models/observation'
-require_relative 'models/observer'
 
 module Observers
   class Observations
@@ -16,12 +15,12 @@ module Observers
       end
 
       def create(observable:)
-        @observations ||= {}
-        @observations[observable] = Observation.new(observable:)
+        observations[observable] = Observation.new(observable:)
+        observations[observable]
       end
 
       def observe(observable:, observer:)
-        observation = observations[observable]
+        observation = observations[observable] || create(observable:)
         observation.add_observer(observer:)
       end
     end

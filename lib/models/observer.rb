@@ -2,8 +2,11 @@
 
 module Observers
   class Observer
-    def initialize(priority:)
-      @priority = priority
+    attr_reader :order
+
+    def initialize(observer:, order:)
+      @observer = observer
+      @order = order
     end
   end
 end
