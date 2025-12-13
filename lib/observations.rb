@@ -1,17 +1,23 @@
 # frozen_string_literal: true
 
-require_relative '../models/observation'
-require_relative '../models/observer'
+require_relative 'models/observation'
+require_relative 'models/observer'
 
 module Observers
-  class Deck
+  class Observations
     class << self
-      def observations
-        @observations ||= {}
+      def reset
+        @observations = {}
       end
 
-      def track(observable:)
-        observations[observable] = Observation.new(observable:)
+      def observations
+        @observations ||= {}
+        @observations
+      end
+
+      def create(observable:)
+        @observations ||= {}
+        @observations[observable] = Observation.new(observable:)
       end
 
       def observe(observable:, observer:)
