@@ -4,7 +4,7 @@ require_relative '../fixtures/observer'
 
 RSpec.describe Observer do
   before do
-    Observers::Observations.reset
+    Observers::Observables.reset
     Object.send(:remove_const, 'Observer')
     load 'spec/fixtures/observer.rb'
   end
@@ -16,7 +16,7 @@ RSpec.describe Observer do
 
     it 'creates an observer' do
       Observer
-      expect(Observers::Observations.observations.values.first.observers.count).to eq(1)
+      expect(Observers::Observables.observables.values.first.observers.count).to eq(1)
     end
   end
 end

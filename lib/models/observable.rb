@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Observers
-  class Observation
+  class Observable
     attr_reader :observers
 
     def initialize(observable:)

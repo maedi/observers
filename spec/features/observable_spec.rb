@@ -4,7 +4,7 @@ require_relative '../fixtures/observable'
 
 RSpec.describe Observable do
   before do
-    Observers::Observations.reset
+    Observers::Observables.reset
     Object.send(:remove_const, 'Observable')
     load 'spec/fixtures/observable.rb'
   end
@@ -14,9 +14,9 @@ RSpec.describe Observable do
       expect { Observable }.not_to raise_error
     end
 
-    it 'creates an observation' do
+    it 'creates an observable' do
       Observable
-      expect(Observers::Observations.observations.count).to eq(1)
+      expect(Observers::Observables.observables.count).to eq(1)
     end
   end
 end
