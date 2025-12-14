@@ -8,7 +8,7 @@ Observer pattern with a much nicer "interface".
 
 Make a class/object `observable` with:
 ```ruby
-class Publisher
+class MyPublisher
   extend Observers
   observable
 end
@@ -18,9 +18,9 @@ end
 
 `observe` updates from that class/object with:
 ```ruby
-class Subscriber
+class MySubscriber
   extend Observers
-  observe Publisher
+  observe MyPublisher
 
   def self.action
     # Method that will be called.
@@ -33,13 +33,13 @@ end
 ### Method Trigger
 
 ```ruby
-Publisher.trigger :action # => Calls the "action" method on Subscriber
+MyPublisher.trigger :action # => Calls the "action" method on MySubscriber
 ```
 
 ### Event Trigger [UNRELEASED]
 
 ```ruby
-Publisher.trigger Event.new(action: :action) # => Calls the "action" method on Subscriber
+MyPublisher.trigger LowEvent.new(action: :action) # => Calls the "action" method on MySubscriber
 ```
 
 ## Installation
@@ -48,3 +48,7 @@ Add `gem 'observers'` to your Gemfile then:
 ```
 bundle install
 ```
+
+## Integrations
+
+Observers integrates with [LowEvent](https://github.com/low-rb/low_event), allowing you to create an event each time you trigger an action.
