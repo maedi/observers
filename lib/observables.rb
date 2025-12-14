@@ -24,7 +24,7 @@ module Observers
         observable.add_observer(observer:)
       end
 
-      def trigger(key:, action:, event: nil)
+      def trigger(key:, action:, event:)
         observables[key].observers.each do |observer|
           observer.trigger(action:, event:)
         end

@@ -24,12 +24,11 @@ module Observers
       key, action = args
     end
 
-    event = nil
-    if action.is_a?(Event)
+    if action.respond_to?(:action)
       event = action
       action = arg.action
     end
 
-    Observables.trigger(key:, action:, event:)
+    Observables.trigger(key:, action:, event: nil)
   end
 end
