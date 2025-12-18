@@ -14,13 +14,13 @@ module Observers
     Observables.observe(key:, observer:)
   end
 
-  def trigger(*args)
-    Observables.trigger(*args, key: self)
+  def trigger(actionable, key = nil)
+    Observables.trigger(actionable:, key: key || self)
   end
 
   # Returns the first observer with a non-nil return value.
   # One day it may use ractors and be concurrent, if we can freeze the args.
-  def take(*args)
-    Observables.take(*args, key: self)
+  def take(actionable, key = nil)
+    Observables.take(actionable:, key: key || self)
   end
 end

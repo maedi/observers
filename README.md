@@ -39,11 +39,16 @@ MyPublisher.take :action # => Calls the "action" method on all observers and ret
 
 ### Events
 
-Any object that has an `action` method is considered an event:
+Observers integrates with [LowEvent](https://github.com/low-rb/low_event), allowing you to pass an event to your observer.  
+
+Any object that inherits from `LowEvent` is considered an event:
 
 ```ruby
-MyPublisher.trigger MyEvent.new(action: :action) # => Calls the "action" method on MySubscriber
-MyPublisher.take MyEvent.new(action: :action) # => Calls the "action" method on all observers and returns the first non-nil return value.
+# Call the "handle_event(event)" method on all observers to MySubscriber:
+MyPublisher.trigger MyEvent.new(event_data)
+
+# Call the "handle_event(event)" method on all observers to MySubscriber and return the first observer's return value that is non-nil:
+MyPublisher.take MyEvent.new(event_data)
 ```
 
 ## Installation
@@ -55,4 +60,3 @@ bundle install
 
 ## Integrations
 
-Observers integrates with [LowEvent](https://github.com/low-rb/low_event), allowing you to create an event each time you trigger an action.

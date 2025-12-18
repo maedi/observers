@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../../lib/observers'
-require_relative '../fixtures/event'
+require_relative '../fixtures/low_event'
 require_relative '../fixtures/publisher'
 require_relative '../fixtures/subscribers'
 
@@ -43,7 +43,7 @@ RSpec.describe 'Subscribers' do
     end
 
     context 'when the actionable is an event' do
-      let(:actionable) { Event.new(action: :action) }
+      let(:actionable) { LowEvent.new(action: :action) }
 
       before do
         allow(TrueSubscriber).to receive(:action).with(event: actionable)
@@ -79,7 +79,7 @@ RSpec.describe 'Subscribers' do
     end
 
     context 'when the actionable is an event' do
-      let(:actionable) { Event.new(action: :action) }
+      let(:actionable) { LowEvent.new(action: :action) }
 
       before do
         allow(TrueSubscriber).to receive(:action).with(event: actionable).and_return(true)
