@@ -51,6 +51,10 @@ MyPublisher.trigger MyEvent.new(event_data)
 MyPublisher.take MyEvent.new(event_data)
 ```
 
+## Architecure
+
+`Observer`s are decoupled from the classes/objects they `observe`. Instead of directly observing a particular `Observable`, we observe the "key" that represents that `Observable`. This allows us to observe entities with arbitrary keys. For more information see [Raindeer](https://github.com/raindeer-rb/raindeer).
+
 ## Installation
 
 Add `gem 'observers'` to your Gemfile then:
