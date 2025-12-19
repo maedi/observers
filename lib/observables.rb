@@ -51,7 +51,7 @@ module Observers
         action = actionable
         event = nil
 
-        if actionable.class.ancestors.any? { |ancestor| ancestor.to_s == 'LowEvent' }
+        if actionable.class.ancestors.any? { |ancestor| ancestor.to_s == 'Low::Event' }
           event = actionable
           action = event.action
         end
