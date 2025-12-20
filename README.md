@@ -44,10 +44,10 @@ Observers integrates with [LowEvent](https://github.com/low-rb/low_event), allow
 Any object that inherits from `LowEvent` is considered an event:
 
 ```ruby
-# Call the "handle_event(event)" method on all observers to MySubscriber:
+# Call the "handle(event:)" method on all observers to MySubscriber:
 MyPublisher.trigger MyEvent.new(event_data)
 
-# Call the "handle_event(event)" method on all observers to MySubscriber and return the first observer's return value that is non-nil:
+# Call the "handle(event:)" method on all observers to MySubscriber and return the first observer's return value that is non-nil:
 MyPublisher.take MyEvent.new(event_data)
 ```
 
