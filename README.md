@@ -9,7 +9,7 @@ Observer pattern with a much nicer "interface".
 Make a class/object `observable` with:
 ```ruby
 class MyPublisher
-  extend Observers
+  include Observers
   observable
 end
 ```
@@ -19,7 +19,7 @@ end
 `observe` updates from that class/object with:
 ```ruby
 class MySubscriber
-  extend Observers
+  include Observers
   observe MyPublisher
 
   def self.action
@@ -34,7 +34,7 @@ end
 
 ```ruby
 MyPublisher.trigger :action # => Calls the "action" method on MySubscriber
-MyPublisher.take :action # => Calls the "action" method on all observers and returns the first non-nil return value.
+MyPublisher.take :action # => Calls the "action" method on all observers and returns the first non-nil observer return value.
 ```
 
 ### Events
@@ -53,9 +53,9 @@ MyPublisher.take LowEvent.new(event_data)
 
 ## Observer Action
 
-The default action that will be called on an observer is `handle` or `handle(event:)`, which can be overidden via triggers as seen above.
+The default action that will be called on an observer is `handle` or `handle(event:)`, which can be overidden on the `Observable` side, as seen via triggers as seen above.  
+You can also override the action handler on the `Observer` side, to always be a certain action regardless of the `Observable` trigger's action/event's action.
 
-You can also override the action handler per observer to always be a certain action regardless of the trigger's action/event's action.
 ```ruby
 class MySubscriber
   extend Observers
@@ -69,7 +69,15 @@ end
 
 ## Architecure
 
-`Observer`s are decoupled from the classes/objects they `observe`. Instead of directly observing a particular `Observable`, we observe the "key" that represents that `Observable`. This allows us to observe entities with arbitrary keys. For more information see [Raindeer](https://github.com/raindeer-rb/raindeer).
+`Observer`s are decoupled from the classes/objects they `observe`. Instead of directly observing a particular `Observable`, we observe the "key" that represents that `Observable`. This allows us to observe entities with arbitrary keys.
+
+**Observers uses the singleton pattern and for good reasons:**
+- Observers operates primarily at the class level. Injecting itself as a dependency to other class methods would mean just referencing global constants anyway
+- Class level `Observable`s and their associated `Observer`s can be added independently of each other in either order
+- Observers is the glue connecting various classes together, but in a dynamic and decoupled way where each observable/observer relationship is not hardcoded
+- The very nature of connecting classes is a global task. This global state could be stored in a single central object which would become a... singleton
+
+ℹ️ **Note:** If you know of a better way to achieve the goals of Observers then I would really like to hear about it, just open an issue or pull request.
 
 ## Installation
 
