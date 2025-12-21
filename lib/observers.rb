@@ -4,6 +4,14 @@ require_relative 'observables'
 require_relative 'models/observer'
 
 module Observers
+  def self.included(klass)
+    klass.extend Observers
+  end
+
+  def observables
+    Observables.observables
+  end
+
   def observable(key = self)
     Observables.upsert(key:)
   end
