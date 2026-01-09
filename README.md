@@ -32,21 +32,18 @@ end
 
 ### Actions
 
+Calls the "action" method on MySubscriber and returns the last observer's return value that is non-nil:
 ```ruby
-MyPublisher.trigger :action # => Calls the "action" method on MySubscriber
-MyPublisher.take :action # => Calls the "action" method on all observers and returns the first non-nil observer return value.
+MyPublisher.trigger :action
 ```
 
 ### Events
 
-Observers integrates with [LowEvent](https://github.com/low-rb/low_event), allowing you to pass an event to your observer:
+Observers integrates with [LowEvent](https://github.com/low-rb/low_event), allowing you to pass an event to your observer.
 
+Calls the "handle(event:)" method on all observers to MySubscriber and return the last observer's return value that is non-nil:
 ```ruby
-# Call the "handle(event:)" method on all observers to MySubscriber:
 MyPublisher.trigger LowEvent.new(event_data)
-
-# Call the "handle(event:)" method on all observers to MySubscriber and return the first observer's return value that is non-nil:
-MyPublisher.take LowEvent.new(event_data)
 ```
 
 ℹ️ **Note:** Any object that inherits from `LowEvent` is considered an event.

@@ -25,7 +25,7 @@ RSpec.describe 'Class Subscribers' do
   end
 
   describe 'Observers#trigger' do
-    context 'when the actionable is a symbol' do
+    context 'with action' do
       let(:actionable) { :action }
 
       before do
@@ -43,7 +43,7 @@ RSpec.describe 'Class Subscribers' do
       end
     end
 
-    context 'when the actionable is an event' do
+    context 'with event' do
       let(:actionable) { LowEvent.new(action: :action) }
 
       before do
@@ -76,40 +76,6 @@ RSpec.describe 'Class Subscribers' do
       it "triggers an observer's overridden action via method" do
         ClassPublisher.trigger_via_method(actionable)
         expect(ActionSubscriber).to have_received(:overridden_action)
-      end
-    end
-  end
-
-  describe 'Observers#take' do
-    context 'when the actionable is a symbol' do
-      let(:actionable) { :action }
-
-      before do
-        allow(TrueSubscriber).to receive(:action).and_return(true)
-      end
-
-      it "takes an observer's return value" do
-        expect(ClassPublisher.take(actionable)).to eq(true)
-      end
-
-      it "takes an observer's return value via method" do
-        expect(ClassPublisher.take_via_method(actionable)).to eq(true)
-      end
-    end
-
-    context 'when the actionable is an event' do
-      let(:actionable) { LowEvent.new(action: :action) }
-
-      before do
-        allow(TrueSubscriber).to receive(:action).with(event: actionable).and_return(true)
-      end
-
-      it "takes an observer's return value" do
-        expect(ClassPublisher.take(actionable)).to eq(true)
-      end
-
-      it "takes an observer's return value via method" do
-        expect(ClassPublisher.take_via_method(actionable)).to eq(true)
       end
     end
   end

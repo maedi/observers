@@ -22,13 +22,10 @@ module Observers
     Observables.observe(key:, observer:)
   end
 
+  # Returns the last observer with a non-nil return value.
   def trigger(actionable, key = nil)
     Observables.trigger(actionable:, key: key || self)
   end
 
-  # Returns the first observer with a non-nil return value.
-  # One day it may use ractors and be concurrent, if we can freeze the args.
-  def take(actionable, key = nil)
-    Observables.take(actionable:, key: key || self)
-  end
+  # TODO: Provide a "pipe/port/take" method that uses ractors to be concurrent... if supplied with immutable Data?
 end

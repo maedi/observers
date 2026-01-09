@@ -10,9 +10,5 @@ class ClassPublisher
     def trigger_via_method(actionable)
       trigger actionable
     end
-
-    def take_via_method(actionable)
-      take actionable
-    end
   end
 end

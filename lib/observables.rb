@@ -27,28 +27,21 @@ module Observers
         observable.add_observer(observer:)
       end
 
+      # @return: The last result of the trigger.
       def trigger(actionable:, key:)
         action, event = parse_actionable(actionable:)
 
         observable = observables[key]
         raise MissingObservableError, "Observable key '#{key}' not found" if observable.nil?
 
-        observables[key].observers.each do |observer|
-          observer.trigger(action:, event:)
-        end
-
-        nil # The trigger method is boring and uneventful, it fires events and if it doesn't complain then all is okay.
-      end
-
-      def take(actionable:, key:)
-        action, event = parse_actionable(actionable:)
+        last_result = nil
 
         observables[key].observers.each do |observer|
           result = observer.trigger(action:, event:)
-          return result unless result.nil?
+          last_result = result unless result.nil?
         end
 
-        nil # This is a bad day for the take method, one of the worst.
+        last_result
       end
 
       private
