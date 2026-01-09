@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require_relative '../../lib/observers'
-require_relative 'publisher'
+require_relative 'class_publisher'
 
-class Subscriber
+class ClassSubscriber
   extend Observers
 end
 
-class NilSubscriber < Subscriber
-  observe Publisher
+class NilSubscriber < ClassSubscriber
+  observe ClassPublisher
 
   class << self
     def action(event: nil) # rubocop:disable Lint/UnusedMethodArgument
@@ -17,8 +17,8 @@ class NilSubscriber < Subscriber
   end
 end
 
-class TrueSubscriber < Subscriber
-  observe Publisher
+class TrueSubscriber < ClassSubscriber
+  observe ClassPublisher
 
   class << self
     def action(event: nil) # rubocop:disable Lint/UnusedMethodArgument
@@ -27,8 +27,8 @@ class TrueSubscriber < Subscriber
   end
 end
 
-class ActionSubscriber < Subscriber
-  observe Publisher, :overridden_action
+class ActionSubscriber < ClassSubscriber
+  observe ClassPublisher, :overridden_action
 
   class << self
     def overridden_action(event: nil) # rubocop:disable Lint/UnusedMethodArgument
