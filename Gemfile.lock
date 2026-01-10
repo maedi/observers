@@ -6,7 +6,7 @@ PATH
 PATH
   remote: .
   specs:
-    observers (0.2.0)
+    observers (0.3.0)
       low_dependency
 
 GEM

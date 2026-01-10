@@ -2,21 +2,9 @@
 
 # Observers
 
-Observer pattern with a much nicer "interface".
+Observe any objects of any kind and trigger actions/events on those objects.
 
-## Publisher
-
-Make a class/object `observable` with:
-```ruby
-class MyPublisher
-  include Observers
-  observable
-end
-```
-
-## Subscriber
-
-`observe` updates from that class/object with:
+Observers are decoupled from the classes/objects they observe. Instead of directly observing a particular object, we observe the "key" that represents that object. Any class or object can be observed out of the box, you just need to `observe` it:
 ```ruby
 class MySubscriber
   include Observers
@@ -28,53 +16,65 @@ class MySubscriber
 end
 ```
 
+ℹ️ **Note:** You can observe any entity; classes, objects, structs, strings or symbols are all suitable.
+
 ## Triggers
+
+`include Observers` in the class that you'd like to trigger actions/events from:
+
+```ruby
+class MyPublisher
+  include Observers
+  # "trigger" method now available on class and instance.
+end
+```
 
 ### Actions
 
-Calls the "action" method on MySubscriber and returns the last observer's return value that is non-nil:
+Calls the `my_action` method on MySubscriber and returns the last observer's return value that was non-nil:
 ```ruby
-MyPublisher.trigger :action
+MyPublisher.trigger action: :my_action
+```
+
+Trigger the action on any observers to `any_object_or_class`:
+```ruby
+MyPublisher.trigger any_object_or_class, action: :my_action
 ```
 
 ### Events
 
 Observers integrates with [LowEvent](https://github.com/low-rb/low_event), allowing you to pass an event to your observer.
 
-Calls the "handle(event:)" method on all observers to MySubscriber and return the last observer's return value that is non-nil:
+Calls the `handle(event:)` method on all observers to `MySubscriber` and return the last observer's return value that was non-nil:
 ```ruby
-MyPublisher.trigger LowEvent.new(event_data)
+MyPublisher.trigger event: LowEvent.new(event_data)
 ```
 
-ℹ️ **Note:** Any object that inherits from `LowEvent` is considered an event.
+Trigger the event on any observers to `any_object_or_class`:
+```ruby
+MyPublisher.trigger any_object_or_class, event: LowEvent.new(event_data)
+```
 
-## Observer Action
+ℹ️ **Note:** Events should inherit from `LowEvent` or provide an `action` method.
 
-The default action that will be called on an observer is `handle` or `handle(event:)`, which can be overidden on the `Observable` side, as seen via triggers as seen above.  
-You can also override the action handler on the `Observer` side, to always be a certain action regardless of the `Observable` trigger's action/event's action.
+### Default Action
+
+The default action that will be called on an observer is `handle` or `handle(event:)` if the action or event don't specify this.
+
+### Overridden Action
+
+You can also override the action handler on the `Observer` side, to always be a certain action regardless of the trigger's action/event's action.
 
 ```ruby
 class MySubscriber
-  extend Observers
-  observe MyPublisher, :clear_cache
+  include Observers
+  observe MyPublisher, overridden_action: :clear_cache
 
   def self.clear_cache
-    # All triggers will call this action regardless of their action.
+    # All triggers will call this method instead.
   end
 end
 ```
-
-## Architecure
-
-`Observer`s are decoupled from the classes/objects they `observe`. Instead of directly observing a particular `Observable`, we observe the "key" that represents that `Observable`. This allows us to observe entities with arbitrary keys; classes, objects, strings or symbols are all suitable.
-
-**Observers uses the singleton pattern and for good reasons:**
-- Observers operates primarily at the class level. Injecting itself as a dependency to other class methods would mean just referencing global constants anyway
-- Class level `Observable`s and their associated `Observer`s can be added independently of each other in either order
-- Observers is the glue connecting various classes together, but in a dynamic and decoupled way where each observable/observer relationship is not hardcoded
-- The very nature of connecting classes is a global task. This global state could be stored in a single central object which would become a... singleton
-
-ℹ️ **Note:** If you know of a better way to achieve the goals of Observers then I would really like to hear about it, just open an issue or pull request.
 
 ## Installation
 
