@@ -17,18 +17,18 @@ module Observers
   end
 
   # TODO: Unit test order.
-  def observe(key, action = nil, order: Observables.observables.count)
-    observer = Observer.new(observer: self, action:, order:)
+  def observe(key, overridden_action: nil, order: Observables.observables.count)
+    observer = Observer.new(observer: self, action: overridden_action, order:)
     Observables.observe(key:, observer:)
   end
 
-  def trigger(actionable, key = nil)
-    Observables.trigger(actionable:, key: key || self)
+  # Returns the last observer with a non-nil return value.
+  def trigger(key = self, action: nil, event: nil)
+    raise ArgumentError, 'Action or event required' if action.nil? && event.nil?
+
+    # TODO: Parsing logic can be simplified/removed now that action and event args are separated.
+    Observables.trigger(actionable: action || event, key:)
   end
 
-  # Returns the first observer with a non-nil return value.
-  # One day it may use ractors and be concurrent, if we can freeze the args.
-  def take(actionable, key = nil)
-    Observables.take(actionable:, key: key || self)
-  end
+  # TODO: Provide a "pipe/port/take" method that uses ractors to be concurrent... if supplied with immutable Data?
 end

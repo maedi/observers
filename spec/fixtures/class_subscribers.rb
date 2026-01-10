@@ -4,7 +4,7 @@ require_relative '../../lib/observers'
 require_relative 'class_publisher'
 
 class ClassSubscriber
-  extend Observers
+  include Observers
 end
 
 class NilSubscriber < ClassSubscriber
@@ -28,10 +28,10 @@ class TrueSubscriber < ClassSubscriber
 end
 
 class ActionSubscriber < ClassSubscriber
-  observe ClassPublisher, :overridden_action
+  observe ClassPublisher, overridden_action: :my_action
 
   class << self
-    def overridden_action(event: nil) # rubocop:disable Lint/UnusedMethodArgument
+    def my_action(event: nil) # rubocop:disable Lint/UnusedMethodArgument
       nil # Stubbed via test but here to show intent.
     end
   end
