@@ -23,8 +23,11 @@ module Observers
   end
 
   # Returns the last observer with a non-nil return value.
-  def trigger(actionable, key = nil)
-    Observables.trigger(actionable:, key: key || self)
+  def trigger(key = self, action: nil, event: nil)
+    raise ArgumentError, "Action or event required" if action.nil? && event.nil?
+
+    # TODO: Parsing logic can be simplified/removed now that action and event args are separated.
+    Observables.trigger(actionable: action || event, key:)
   end
 
   # TODO: Provide a "pipe/port/take" method that uses ractors to be concurrent... if supplied with immutable Data?

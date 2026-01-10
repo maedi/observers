@@ -7,8 +7,12 @@ class ClassPublisher
   observable
 
   class << self
-    def trigger_via_method(actionable)
-      trigger actionable
+    def trigger_action(action:)
+      trigger(action:)
+    end
+
+    def trigger_event(event:)
+      trigger(event:)
     end
   end
 end

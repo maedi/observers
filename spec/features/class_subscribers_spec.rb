@@ -5,7 +5,7 @@ require_relative '../fixtures/low_event'
 require_relative '../fixtures/class_publisher'
 require_relative '../fixtures/class_subscribers'
 
-RSpec.describe 'Class Subscribers' do
+RSpec.describe 'ClassSubscribers' do
   before do
     Observers::Observables.reset
 
@@ -26,56 +26,56 @@ RSpec.describe 'Class Subscribers' do
 
   describe 'Observers#trigger' do
     context 'with action' do
-      let(:actionable) { :action }
+      let(:action) { :action }
 
       before do
         allow(TrueSubscriber).to receive(:action)
       end
 
       it "triggers an observer's action" do
-        ClassPublisher.trigger actionable
+        ClassPublisher.trigger(action:)
         expect(TrueSubscriber).to have_received(:action)
       end
 
       it "triggers an observer's action via method" do
-        ClassPublisher.trigger_via_method(actionable)
+        ClassPublisher.trigger_action(action:)
         expect(TrueSubscriber).to have_received(:action)
       end
     end
 
     context 'with event' do
-      let(:actionable) { LowEvent.new(action: :action) }
+      let(:event) { LowEvent.new(action: :action) }
 
       before do
-        allow(TrueSubscriber).to receive(:action).with(event: actionable)
+        allow(TrueSubscriber).to receive(:action).with(event:)
       end
 
       it "triggers an observer's action" do
-        ClassPublisher.trigger actionable
+        ClassPublisher.trigger(event:)
         expect(TrueSubscriber).to have_received(:action)
       end
 
       it "triggers an observer's action via method" do
-        ClassPublisher.trigger_via_method(actionable)
+        ClassPublisher.trigger_event(event:)
         expect(TrueSubscriber).to have_received(:action)
       end
     end
 
     context 'when the subscriber overrides the action' do
-      let(:actionable) { :action }
+      let(:action) { :action }
 
       before do
-        allow(ActionSubscriber).to receive(:overridden_action)
+        allow(ActionSubscriber).to receive(:my_action)
       end
 
       it "triggers an observer's overridden action" do
-        ClassPublisher.trigger actionable
-        expect(ActionSubscriber).to have_received(:overridden_action)
+        ClassPublisher.trigger(action:)
+        expect(ActionSubscriber).to have_received(:my_action)
       end
 
       it "triggers an observer's overridden action via method" do
-        ClassPublisher.trigger_via_method(actionable)
-        expect(ActionSubscriber).to have_received(:overridden_action)
+        ClassPublisher.trigger_action(action:)
+        expect(ActionSubscriber).to have_received(:my_action)
       end
     end
   end
