@@ -16,11 +16,9 @@ module Observers
     rescue ArgumentError
       type = @observer.instance_of?(Class) ? @observer : @observer.class
 
-      if event.nil?
-        raise ArgumentError, "#{type}##{action} has an 'event:' keyword argument but no event was sent"
-      else
-        raise ArgumentError, "#{event.class} sent to #{type}##{action} but it has no 'event:' keyword argument"
-      end
+      raise ArgumentError, "#{type}##{action} has an 'event:' keyword argument but no event was sent" if event.nil?
+
+      raise ArgumentError, "#{event.class} sent to #{type}##{action} but it has no 'event:' keyword argument"
     end
   end
 end
