@@ -157,7 +157,7 @@ Copy and paste the following and change the defaults to configure Observers:
 # This configuration should be set before the class that includes Observers is required.
 Observers.configure do |config|
   # A lambda to call when actions/events are triggered for a key without observers.
-  config.key_callback = nil # Or "->(key) { MyLogger.log('my message') }"
+  config.empty_observers_callback = nil # Or "->(key) { MyLogger.log('my message') }"
 end
 ```
 

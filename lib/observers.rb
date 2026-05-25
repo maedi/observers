@@ -4,7 +4,7 @@ require_relative 'keys'
 require_relative 'models/observer'
 
 module Observers
-  Config = Struct.new(:key_callback)
+  Config = Struct.new(:empty_observers_callback)
 
   class << self
     def [](key)
@@ -16,7 +16,7 @@ module Observers
     end
 
     def config
-      @config ||= Config.new(key_callback: nil)
+      @config ||= Config.new(empty_observers_callback: nil)
     end
 
     def configure
