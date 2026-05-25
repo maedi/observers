@@ -11,7 +11,13 @@ module Observers
 
     def trigger(action:, event:)
       action = @action if @action
-      event ? @object.send(action, **{ event: }) : @object.send(action)
+
+      # Assumption that if method has params then that param is "event:".
+      if event && @object.method(action).parameters.count > 0
+        @object.send(action, **{ event: })
+      else
+        @object.send(action)
+      end
     rescue ArgumentError => e
       type = @object.instance_of?(Class) ? @object : @object.class
       method_type = @object.instance_of?(Class) ? '.' : '#'
