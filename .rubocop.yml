@@ -22,6 +22,10 @@ Metrics/PerceivedComplexity:
 Metrics/CyclomaticComplexity:
   Max: 10
 
+# Disable "Use value.positive? instead of value > 0".
+Style/NumericPredicate:
+  Enabled: false
+
 # Support LowType return value "-> { T }" syntax.
 Style/TrailingBodyOnMethodDefinition:
   Enabled: false
