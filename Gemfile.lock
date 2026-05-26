@@ -8,7 +8,7 @@ PATH
 PATH
   remote: .
   specs:
-    observers (0.7.0)
+    observers (0.8.0)
 
 GEM
   remote: https://rubygems.org/
@@ -102,4 +102,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   2.5.9
+  4.0.12
