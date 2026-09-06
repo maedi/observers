@@ -9,9 +9,9 @@ group :development do
   gem 'irb'
   gem 'rack'
   gem 'rack-test'
-  gem 'rake', '~> 13.0'
-  gem 'rspec', '~> 3.0'
-  gem 'rubocop', require: false
+  gem 'rake'
+  gem 'rspec'
+  gem 'rubocop'
 end
 
 group :test do
