@@ -22,30 +22,34 @@ module Observers
       empty_observers_callback if @observers.empty?
 
       action = event.action if event && action.nil?
-      action = :handle if action.nil?
+      action = [:handle] if action.empty?
 
       last_result = nil
 
       @observers.each do |observer|
-        result = observer.trigger(action:, event:)
-        last_result = result unless result.nil?
-        yield if block_given?
+        action.each do |a|
+          result = observer.trigger(action: a, event:)
+          last_result = result unless result.nil?
+          yield if block_given?
+        end
       end
 
       last_result
     end
 
-    # @returns: The result of the first observer with a non-nil value.
+    # @returns: The result of the first observer and the first action with a non-nil value.
     def take(action: nil, event: nil)
       return empty_observers_callback if @observers.empty?
 
       action = event.action if event && action.nil?
-      action = :handle if action.nil?
+      action = [:handle] if action.empty?
 
       @observers.each do |observer|
-        result = observer.trigger(action:, event:)
-        yield if block_given?
-        return result unless result.nil?
+        action.each do |a|
+          result = observer.trigger(action: a, event:)
+          yield if block_given?
+          return result unless result.nil?
+        end
       end
 
       # This is a bad day for the take method, one of the worst.
