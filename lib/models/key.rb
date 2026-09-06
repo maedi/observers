@@ -17,7 +17,7 @@ module Observers
 
     # @returns: The result of the last observer with a non-nil value.
     def trigger(action: nil, event: nil)
-      empty_observers_callback
+      empty_observers_callback if @observers.empty?
 
       action = event.action if event && action.nil?
       action = :handle if action.nil?
@@ -35,7 +35,7 @@ module Observers
 
     # @returns: The result of the first observer with a non-nil value.
     def take(action: nil, event: nil)
-      empty_observers_callback
+      return empty_observers_callback if @observers.empty?
 
       action = event.action if event && action.nil?
       action = :handle if action.nil?
@@ -52,7 +52,7 @@ module Observers
     private
 
     def empty_observers_callback
-      Observers.config.empty_observers_callback.call(@key) if Observers.config.empty_observers_callback && @observers.empty?
+      Observers.config.empty_observers_callback&.call(@key)
     end
   end
 end
