@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Observers
+  class EmptySetError < StandardError; end
+
   class Key
     attr_reader :observers
 
@@ -46,7 +48,8 @@ module Observers
         return result unless result.nil?
       end
 
-      nil # This is a bad day for the take method, one of the worst.
+      # This is a bad day for the take method, one of the worst.
+      raise EmptySetError, 'No observers returned a result'
     end
 
     private
